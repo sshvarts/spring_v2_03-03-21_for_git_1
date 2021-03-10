@@ -1,0 +1,9 @@
+phyHandling.c:123:19:xHas_1F_PHYSPCS	24	static
+phyHandling.c:154:19:xHas_19_PHYCR	24	static
+phyHandling.c:176:6:vPhyInitialise	24	static
+phyHandling.c:188:12:xPhyDiscover	32	static
+phyHandling.c:232:17:xPhyReset	56	static
+phyHandling.c:306:12:xPhyConfigure	40	static
+phyHandling.c:473:12:xPhyFixedValue	32	static
+phyHandling.c:509:12:xPhyStartAutoNegotiation	72	static
+phyHandling.c:699:12:xPhyCheckLinkStatus	40	static

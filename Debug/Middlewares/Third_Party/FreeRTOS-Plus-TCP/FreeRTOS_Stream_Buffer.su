@@ -1,0 +1,8 @@
+FreeRTOS_IP.h:233:36:FreeRTOS_min_uint32	16	static
+FreeRTOS_Stream_Buffer.h:71:30:uxStreamBufferSpace	32	static
+FreeRTOS_Stream_Buffer.h:92:30:uxStreamBufferDistance	32	static
+FreeRTOS_Stream_Buffer.h:111:30:uxStreamBufferGetSpace	24	static
+FreeRTOS_Stream_Buffer.h:137:30:uxStreamBufferGetSize	24	static
+FreeRTOS_Stream_Buffer.h:185:34:xStreamBufferLessThenEqual	32	static
+FreeRTOS_Stream_Buffer.c:57:8:uxStreamBufferAdd	40	static
+FreeRTOS_Stream_Buffer.c:152:8:uxStreamBufferGet	40	static
