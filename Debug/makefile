@@ -36,37 +36,37 @@ endif
 
 -include ../makefile.defs
 
-BUILD_ARTIFACT_NAME := spring_v2_03-03-21
+BUILD_ARTIFACT_NAME := spring_v2_03-03-21_for_git_1
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX := 
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME).$(BUILD_ARTIFACT_EXTENSION)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-spring_v2_03-03-21.elf \
+spring_v2_03-03-21_for_git_1.elf \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-spring_v2_03-03-21.list \
+spring_v2_03-03-21_for_git_1.list \
 
 OBJCOPY_HEX += \
-spring_v2_03-03-21.hex \
+spring_v2_03-03-21_for_git_1.hex \
 
 OBJCOPY_BIN += \
-spring_v2_03-03-21.bin \
+spring_v2_03-03-21_for_git_1.bin \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: spring_v2_03-03-21.elf secondary-outputs
+main-build: spring_v2_03-03-21_for_git_1.elf secondary-outputs
 
 # Tool invocations
-spring_v2_03-03-21.elf: $(OBJS) $(USER_OBJS) C:\Users\stshv\CUBE_learn_02-15-21_WS\spring_v2_03-03-21\STM32F407IGTX_FLASH.ld
-	arm-none-eabi-gcc -o "spring_v2_03-03-21.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\stshv\CUBE_learn_02-15-21_WS\spring_v2_03-03-21\STM32F407IGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="spring_v2_03-03-21.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+spring_v2_03-03-21_for_git_1.elf: $(OBJS) $(USER_OBJS) C:\Users\stshv\CUBE_learn_02-15-21_WS\spring_v2_03-03-21_for_git_1\STM32F407IGTX_FLASH.ld
+	arm-none-eabi-gcc -o "spring_v2_03-03-21_for_git_1.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\stshv\CUBE_learn_02-15-21_WS\spring_v2_03-03-21_for_git_1\STM32F407IGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="spring_v2_03-03-21_for_git_1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -75,18 +75,18 @@ default.size.stdout: $(EXECUTABLES)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-spring_v2_03-03-21.list: $(EXECUTABLES)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "spring_v2_03-03-21.list"
+spring_v2_03-03-21_for_git_1.list: $(EXECUTABLES)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "spring_v2_03-03-21_for_git_1.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-spring_v2_03-03-21.hex: $(EXECUTABLES)
-	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "spring_v2_03-03-21.hex"
+spring_v2_03-03-21_for_git_1.hex: $(EXECUTABLES)
+	arm-none-eabi-objcopy  -O ihex $(EXECUTABLES) "spring_v2_03-03-21_for_git_1.hex"
 	@echo 'Finished building: $@'
 	@echo ' '
 
-spring_v2_03-03-21.bin: $(EXECUTABLES)
-	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "spring_v2_03-03-21.bin"
+spring_v2_03-03-21_for_git_1.bin: $(EXECUTABLES)
+	arm-none-eabi-objcopy  -O binary $(EXECUTABLES) "spring_v2_03-03-21_for_git_1.bin"
 	@echo 'Finished building: $@'
 	@echo ' '
 
