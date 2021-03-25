@@ -46,3 +46,4 @@
 "Middlewares/Third_Party/FreeRTOS-Plus-TCP/portable/BufferManagement/BufferAllocation_2.o"
 "Middlewares/Third_Party/FreeRTOS-Plus-TCP/portable/NetworkInterface/Common/phyHandling.o"
 "Middlewares/Third_Party/FreeRTOS-Plus-TCP/portable/NetworkInterface/STM32Fxx/NetworkInterface.o"
+"Middlewares/Third_Party/FreeRTOS-Plus-TCP/portable/NetworkInterface/STM32Fxx/SimpleTCPEchoServer.o"

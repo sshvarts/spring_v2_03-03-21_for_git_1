@@ -1,0 +1,27 @@
+20:34:25 **** Incremental Build of configuration Debug for project spring_v2_03-03-21_for_git_1 ****
+make -j12 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m4 -std=gnu11 -g3 -DconfigUSE_COUNTING_SEMAPHORES -DipconfigUSE_RMII -DUSE_HAL_DRIVER -DSTM32F4xx -DFREERTOS_IP_CONFIG_H -DipconfigUSE_NETWORK_EVENT_HOOK -DDEBUG -DSTM32F407xx -DconfigSUPPORT_DYNAMIC_ALLOCATION -c -I../Core/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc -I../Drivers/STM32F4xx_HAL_Driver/Inc/Legacy -I../Middlewares/Third_Party/FreeRTOS/Source/include -I../Middlewares/Third_Party/FreeRTOS/Source/CMSIS_RTOS -I../Middlewares/Third_Party/FreeRTOS/Source/portable/GCC/ARM_CM4F -I../Drivers/CMSIS/Device/ST/STM32F4xx/Include -I../Drivers/CMSIS/Include -I"C:/Users/stshv/CUBE_learn_02-15-21_WS/spring_v2_03-03-21_for_git_1/Middlewares/Third_Party/FreeRTOS-Plus-TCP/portable/Compiler/GCC" -I"C:/Users/stshv/CUBE_learn_02-15-21_WS/spring_v2_03-03-21_for_git_1/Middlewares/Third_Party/FreeRTOS-Plus-TCP/include" -I"C:/Users/stshv/CUBE_learn_02-15-21_WS/spring_v2_03-03-21_for_git_1/Middlewares/Third_Party/FreeRTOS-Plus-TCP/portable/NetworkInterface/include" -I"C:/Users/stshv/CUBE_learn_02-15-21_WS/spring_v2_03-03-21_for_git_1/Middlewares/Third_Party/FreeRTOS-Plus-TCP/portable/NetworkInterface/STM32Fxx" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "Core/Src/main.o"
+../Core/Src/main.c: In function 'vApplicationIPNetworkEventHook':
+../Core/Src/main.c:411:5: warning: implicit declaration of function 'vStartSimpleTCPServerTasks' [-Wimplicit-function-declaration]
+     vStartSimpleTCPServerTasks( configMINIMAL_STACK_SIZE * 2, /*tskIDLE_PRIORITY + 1*/osPriorityLow );   //stack was x by 4
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~
+arm-none-eabi-gcc -o "spring_v2_03-03-21_for_git_1.elf" @"objects.list"   -mcpu=cortex-m4 -T"C:\Users\stshv\CUBE_learn_02-15-21_WS\spring_v2_03-03-21_for_git_1\STM32F407IGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="spring_v2_03-03-21_for_git_1.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: spring_v2_03-03-21_for_git_1.elf
+ 
+arm-none-eabi-objdump -h -S  spring_v2_03-03-21_for_git_1.elf  > "spring_v2_03-03-21_for_git_1.list"
+arm-none-eabi-objcopy  -O ihex  spring_v2_03-03-21_for_git_1.elf  "spring_v2_03-03-21_for_git_1.hex"
+arm-none-eabi-objcopy  -O binary  spring_v2_03-03-21_for_git_1.elf  "spring_v2_03-03-21_for_git_1.bin"
+arm-none-eabi-size   spring_v2_03-03-21_for_git_1.elf 
+   text	   data	    bss	    dec	    hex	filename
+  60640	    168	  43176	 103984	  19630	spring_v2_03-03-21_for_git_1.elf
+Finished building: default.size.stdout
+Finished building: spring_v2_03-03-21_for_git_1.hex
+Finished building: spring_v2_03-03-21_for_git_1.bin
+ 
+ 
+ 
+Finished building: spring_v2_03-03-21_for_git_1.list
+ 
+
+20:34:27 Build Finished. 0 errors, 1 warnings. (took 1s.466ms)
+

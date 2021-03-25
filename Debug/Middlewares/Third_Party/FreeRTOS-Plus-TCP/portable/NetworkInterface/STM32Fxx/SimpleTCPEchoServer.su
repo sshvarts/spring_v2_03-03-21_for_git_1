@@ -1,0 +1,3 @@
+SimpleTCPEchoServer.c:143:6:vStartSimpleTCPServerTasks	24	static
+SimpleTCPEchoServer.c:154:13:prvConnectionListeningTask	80	static,ignoring_inline_asm
+SimpleTCPEchoServer.c:209:13:prvServerConnectionInstance	48	static

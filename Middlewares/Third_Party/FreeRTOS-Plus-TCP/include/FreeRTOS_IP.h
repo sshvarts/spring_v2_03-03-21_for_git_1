@@ -425,7 +425,7 @@
         #define FOnTcpSent                    FOnTCPSent_t
     #endif /* ipconfigENABLE_BACKWARD_COMPATIBILITY */
 
-	#define ipconfigIP_TASK_STACK_SIZE_WORDS	260    	  // stsh
+	#define ipconfigIP_TASK_STACK_SIZE_WORDS	512    	  // stsh
 
     #ifdef __cplusplus
         } /* extern "C" */

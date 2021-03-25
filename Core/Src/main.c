@@ -22,6 +22,7 @@
 #include "cmsis_os.h"
 #include "FreeRTOS_IP.h"
 #include "FreeRTOS_sockets.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include <stdio.h>
@@ -51,6 +52,9 @@ extern BaseType_t FreeRTOS_IPInit( const uint8_t ucIPAddress[],
 #define FALSE	0
 #define AVAILABLE TRUE
 #define NOT_AVAILABLE FALSE
+
+#define mainCREATE_TCP_ECHO_TASKS_SINGLE	0
+#define mainCREATE_SIMPLE_TCP_ECHO_SERVER	1
 
 /* USER CODE END PD */
 
@@ -125,7 +129,8 @@ int main(void)
 
   /* MCU Configuration--------------------------------------------------------*/
 
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
+
+	/* Reset of all peripherals, Initializes the Flash interface and the Systick. */
   HAL_Init();
 
   /* USER CODE BEGIN Init */
@@ -186,15 +191,22 @@ int main(void)
 				 "Task-1",
 				 configMINIMAL_STACK_SIZE,
 				 NULL,
-				 2,
+				 tskIDLE_PRIORITY,
 				&xTaskHandle1 );
 
 	xTaskCreate( vTask2_handler,
 				 "Task-2",
 				 configMINIMAL_STACK_SIZE,
 				 NULL,
-				 2,
+				 tskIDLE_PRIORITY,
 				&xTaskHandle2 );
+
+//	xTaskCreate( vTask3_handler,
+//				 "Task-3",
+//				 configMINIMAL_STACK_SIZE,
+//				 NULL,
+//				 2,
+//				&xTaskHandle2 );
 
   /* USER CODE END RTOS_THREADS */
 
@@ -396,7 +408,7 @@ FreeRTOS_printf( ( "vApplicationIPNetworkEventHook: event %ld\n", eNetworkEvent 
 			#if( mainCREATE_SIMPLE_TCP_ECHO_SERVER == 1 )
 			{
 				/* See http://www.freertos.org/FreeRTOS-Plus/FreeRTOS_Plus_TCP/TCP_Echo_Server.html */
-				vStartSimpleTCPServerTasks( configMINIMAL_STACK_SIZE * 4, tskIDLE_PRIORITY + 1 );
+				vStartSimpleTCPServerTasks( configMINIMAL_STACK_SIZE * 2, /*tskIDLE_PRIORITY + 1*/osPriorityLow );			//stack was x by 4
 			}
 			#endif
 
@@ -433,6 +445,62 @@ FreeRTOS_printf( ( "vApplicationIPNetworkEventHook: event %ld\n", eNetworkEvent 
 	}
 }
 
+//void vAssertCalled( unsigned long ulLine, const char * const pcFileName )
+//{
+//static BaseType_t xPrinted = pdFALSE;
+//volatile uint32_t ulSetToNonZeroInDebuggerToContinue = 1;		//was 0
+//
+//	/* Called if an assertion passed to configASSERT() fails.  See
+//	http://www.freertos.org/a00110.html#configASSERT for more information. */
+//
+//	/* Parameters are not used. */
+//	( void ) ulLine;
+//	( void ) pcFileName;
+//
+//
+// 	taskENTER_CRITICAL();
+//	{
+//		/* Stop the trace recording. */
+//		if( xPrinted == pdFALSE )
+//		{
+//			xPrinted = pdTRUE;
+//			if( xTraceRunning == pdTRUE )  //stsh
+//			{
+//				prvSaveTraceFile();
+//			}
+//		}
+//
+//		/* You can step out of this function to debug the assertion by using
+//		the debugger to set ulSetToNonZeroInDebuggerToContinue to a non-zero
+//		value. */
+//		while( ulSetToNonZeroInDebuggerToContinue == 0 )
+//		{
+//			__asm volatile( "NOP" );
+//			__asm volatile( "NOP" );
+//		}
+//	}
+//	taskEXIT_CRITICAL();
+//}
+
+
+//void vApplicationMallocFailedHook( void )
+//{
+//	/* vApplicationMallocFailedHook() will only be called if
+//	configUSE_MALLOC_FAILED_HOOK is set to 1 in FreeRTOSConfig.h.  It is a hook
+//	function that will get called if a call to pvPortMalloc() fails.
+//	pvPortMalloc() is called internally by the kernel whenever a task, queue,
+//	timer or semaphore is created.  It is also called by various parts of the
+//	demo application.  If heap_1.c, heap_2.c or heap_4.c is being used, then the
+//	size of the	heap available to pvPortMalloc() is defined by
+//	configTOTAL_HEAP_SIZE in FreeRTOSConfig.h, and the xPortGetFreeHeapSize()
+//	API function can be used to query the size of free heap space that remains
+//	(although it does not provide information on how the remaining heap might be
+//	fragmented).  See http://www.freertos.org/a00111.html for more
+//	information. */
+//	vAssertCalled( __LINE__, __FILE__ );
+//}
+
+
 /* USER CODE END 4 */
 
 /* USER CODE BEGIN Header_StartDefaultTask */
@@ -445,6 +513,9 @@ FreeRTOS_printf( ( "vApplicationIPNetworkEventHook: event %ld\n", eNetworkEvent 
 void StartDefaultTask(void const * argument)
 {
   /* USER CODE BEGIN 5 */
+
+//  vCreateTCPServerSocket();
+
   /* Infinite loop */
   for(;;)
   {
@@ -459,8 +530,6 @@ void StartDefaultTask(void const * argument)
   		if (UART_ACCESS_KEY == AVAILABLE)
   		{
   			UART_ACCESS_KEY = NOT_AVAILABLE;
-//  			printmsg("Hello Task-1----------****\r\n");
-
 			sprintf(usr_msg,"Hello Task-1----------****\r\n");
 			HAL_USART_Transmit(&husart6, (uint8_t*)usr_msg, strlen(usr_msg), 1000);
 
@@ -481,7 +550,6 @@ void StartDefaultTask(void const * argument)
   		if (UART_ACCESS_KEY == AVAILABLE)
   		{
   			UART_ACCESS_KEY = NOT_AVAILABLE;
-//  			printmsg("Hello Task-2=====================\r\n");
 			sprintf(usr_msg,"Hello Task-2=====================\r\n");
 			HAL_USART_Transmit(&husart6, (uint8_t*)usr_msg, strlen(usr_msg), 1000);
 
@@ -495,102 +563,31 @@ void StartDefaultTask(void const * argument)
   	}
   }
 
+//  void vTask3_handler(void *params)
+//  {
+//		vCreateTCPServerSocket();
+//
+//  	while(1)
+//  	{
+//  		if (UART_ACCESS_KEY == AVAILABLE)
+//  		{
+//  			UART_ACCESS_KEY = NOT_AVAILABLE;
+//			sprintf(usr_msg,"Hello Task-3=====================\r\n");
+//			HAL_USART_Transmit(&husart6, (uint8_t*)usr_msg, strlen(usr_msg), 1000);
+//
+//  			UART_ACCESS_KEY = AVAILABLE;
+//
+//  //			SEGGER_SYSVIEW_Print("Task2 is yielding");
+//  //			traceISR_EXIT_TO_SCHEDULER();
+//
+//  			taskYIELD();
+//  		}
+//  	}
+//  }
+
+
   /* USER CODE END 5 */
-
-
-//static void prvSetupUart(void)
-//{
-////	GPIO_InitTypeDef gpio_uart_pins;
-////	USART_InitTypeDef usart6_init;
-////	USART_HandleTypeDef husart_6;
-//
-//	GPIO_InitTypeDef GPIO_InitStructure;
-//
-//	//1. Enable UART peripheral clock
-////	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART6, ENABLE);
-////	RCC_AHB1PeriphClockCmd(RCC_AHB1Periph_GPIOC, ENABLE);
-//
-//	__HAL_RCC_USART6_CLK_ENABLE();
-//	__HAL_RCC_GPIOC_CLK_ENABLE();
-//
-//	//PA2 is UART2_TX, PA3 is UART_RX
-//
-//	//2. Alternate functions of pins PC6 and PC7
-//	//Zero each element of the structure
-////	memset(&gpio_uart_pins,0, sizeof(gpio_uart_pins));
-////
-////	gpio_uart_pins.GPIO_Pin  = GPIO_Pin_6 | GPIO_Pin_7;
-////	gpio_uart_pins.GPIO_Mode = GPIO_Mode_AF;
-////	gpio_uart_pins.GPIO_PuPd = GPIO_PuPd_UP;
-////	GPIO_Init(GPIOC, &gpio_uart_pins);
-//
-//	  /* Configure PA1, PA2 and PA7 */
-//	  GPIO_InitStructure.Pin 		= GPIO_PIN_6 | GPIO_PIN_7;
-//
-//	  GPIO_InitStructure.Speed 		= GPIO_SPEED_FREQ_HIGH;
-//	  GPIO_InitStructure.Mode 		= GPIO_MODE_AF_PP;
-//	  GPIO_InitStructure.Pull 		= GPIO_MODE_OUTPUT_PP;
-//	  GPIO_InitStructure.Alternate 	= GPIO_AF8_USART6;
-//	  HAL_GPIO_Init(GPIOC, &GPIO_InitStructure);
-//
-//
-//	//3. AF mode settings for pins
-////	GPIO_PinAFConfig(GPIOC, GPIO_PinSource6, GPIO_AF_USART6); // PC6
-////	GPIO_PinAFConfig(GPIOC, GPIO_PinSource7, GPIO_AF_USART6); // PC7
-//
-//	//4. UART parameter initialization
-//
-//	//Zero each element of the structure
-//	memset(&husart6.Init, 0, sizeof(husart6.Init));
-//
-////	husart_6.Instance = USART6;
-//	husart6.Instance = USART6;
-//
-//
-//	husart6.Init.BaudRate = 115200;
-////	usart6_init.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-//	husart6.Init.Mode = USART_MODE_TX | USART_MODE_RX;
-//	husart6.Init.Parity = USART_PARITY_NONE;
-//	husart6.Init.StopBits = USART_STOPBITS_1;
-//	husart6.Init.WordLength = USART_WORDLENGTH_9B;   //USART_WORDLENGTH_8B;  stsh
-//
-////	USART_SetConfig(&husart_6);
-//
-//	HAL_USART_Init(&husart6);
-//
-//
-//	//5. Enable the UART peripheral
-////	USART_Cmd(USART6, ENABLE);
 //}
-
-
-
-//void prvSetupHardware(void)
-//{
-//	// Setup UART2
-////	prvSetupUart();
-//}
-
-//void printmsg(char *msg)
-//{
-//	for(uint32_t i = 0; i < strlen(msg); i++)
-//	{
-////		while(USART_GetFlagStatus(USART6, USART_FLAG_TXE) != SET);
-//		__HAL_USART_GET_FLAG(USART6, USART_FLAG_TXE);
-//		USART_SendData(USART6, msg[i]);
-//	}
-//}
-
-
-//void printmsg(char *msg)
-//{
-//	for(uint32_t i = 0; i < strlen(msg); i++)
-//	{
-//		while(USART_GetFlagStatus(USART6, USART_FLAG_TXE) != SET);
-//		USART_SendData(USART6, msg[i]);
-//	}
-//}
-
 
  /**
   * @brief  Period elapsed callback in non blocking mode

@@ -38,6 +38,7 @@
 #include "task.h"
 #include "queue.h"
 #include "semphr.h"
+#include "cmsis_os.h"
 
 /* FreeRTOS+TCP includes. */
 #include "FreeRTOS_IP.h"
@@ -76,7 +77,7 @@
       ETH_DMA_IT_TU | ETH_DMA_IT_RO | ETH_DMA_IT_TJT | ETH_DMA_IT_TPS | ETH_DMA_IT_T )
 
 #ifndef niEMAC_HANDLER_TASK_PRIORITY
-    #define niEMAC_HANDLER_TASK_PRIORITY    configMAX_PRIORITIES - 1
+    #define niEMAC_HANDLER_TASK_PRIORITY    7  //14  //configMAX_PRIORITIES - 1  // stsh "higher" priority
 #endif
 
 #define ipFRAGMENT_OFFSET_BIT_MASK          ( ( uint16_t ) 0x0fff ) /* The bits in the two byte IP header field that make up the fragment offset value. */
@@ -483,7 +484,7 @@ BaseType_t xNetworkInterfaceInitialise( void )
              * possible priority to ensure the interrupt handler can return directly
              * to it.  The task's handle is stored in xEMACTaskHandle so interrupts can
              * notify the task when there is something to process. */
-            if( xTaskCreate( prvEMACHandlerTask, "EMAC", configEMAC_TASK_STACK_SIZE, NULL, niEMAC_HANDLER_TASK_PRIORITY, &xEMACTaskHandle ) == pdPASS )
+            if( xTaskCreate( prvEMACHandlerTask, "EMAC", configEMAC_TASK_STACK_SIZE, NULL, osPriorityHigh /*niEMAC_HANDLER_TASK_PRIORITY*/ , &xEMACTaskHandle ) == pdPASS )
             {
                 /* The xTXDescriptorSemaphore and the task are created successfully. */
                 xMacInitStatus = eMACPass;

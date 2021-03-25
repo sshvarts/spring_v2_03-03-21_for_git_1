@@ -96,7 +96,7 @@
 #endif
 
 #ifndef ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS						//moved by stsh from bottom
-    #define ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS    45
+    #define ipconfigNUM_NETWORK_BUFFER_DESCRIPTORS    16		//stsh was 45
 #endif
 
 #ifndef ipconfigEVENT_QUEUE_LENGTH
@@ -165,7 +165,7 @@
     #endif
 
     #ifndef ipconfigTCP_WIN_SEG_COUNT
-        #define ipconfigTCP_WIN_SEG_COUNT    ( 256 )
+        #define ipconfigTCP_WIN_SEG_COUNT    ( 32 ) //stsh was 256
     #endif
 
     #ifndef ipconfigIGNORE_UNKNOWN_PACKETS
@@ -235,6 +235,10 @@
  *
  * The FreeRTOS_printf() must be thread-safe but does not have to be interrupt-safe
  */
+
+//#define FreeRTOS_printf
+//#define ipconfigHAS_PRINTF    1
+
 #ifdef ipconfigHAS_PRINTF
     #if ( ipconfigHAS_PRINTF == 0 )
         #ifdef FreeRTOS_printf
@@ -426,12 +430,12 @@
  * The defaults for these size are defined here, although
  * they can be overridden at runtime by using the setsockopt() call */
 #ifndef ipconfigTCP_RX_BUFFER_LENGTH
-    #define ipconfigTCP_RX_BUFFER_LENGTH    ( 4U * ipconfigTCP_MSS )            /* defaults to 5840 bytes */
+    #define ipconfigTCP_RX_BUFFER_LENGTH    ( 2U * ipconfigTCP_MSS )            /* defaults to 5840 bytes */
 #endif
 
 /* Define the size of Tx stream buffer for TCP sockets */
 #ifndef ipconfigTCP_TX_BUFFER_LENGTH
-    #define ipconfigTCP_TX_BUFFER_LENGTH    ( 4U * ipconfigTCP_MSS )        /* defaults to 5840 bytes */
+    #define ipconfigTCP_TX_BUFFER_LENGTH    ( 2U * ipconfigTCP_MSS )        /* defaults to 5840 bytes */
 #endif
 
 #ifndef ipconfigMAXIMUM_DISCOVER_TX_PERIOD
@@ -644,7 +648,7 @@
     #define ipconfigSELECT_USES_NOTIFY    0
 #endif
 
-#define ipconfigIP_TASK_PRIORITY	14		//stsh
+#define ipconfigIP_TASK_PRIORITY	configMAX_PRIORITIES - 2		//stsh "normal" priority
 
 #define ipconfigUSE_RMII 	1		//stsh
 
