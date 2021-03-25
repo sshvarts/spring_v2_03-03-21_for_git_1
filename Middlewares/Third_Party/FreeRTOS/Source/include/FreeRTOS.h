@@ -759,7 +759,7 @@ extern "C" {
 #endif
 
 #ifndef configUSE_QUEUE_SETS
-	#define configUSE_QUEUE_SETS 1    // stsh was 0
+	#define configUSE_QUEUE_SETS 0
 #endif
 
 #ifndef portTASK_USES_FLOATING_POINT

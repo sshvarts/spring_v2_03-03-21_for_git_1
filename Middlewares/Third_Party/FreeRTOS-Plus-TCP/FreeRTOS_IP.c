@@ -49,7 +49,7 @@
 #include "NetworkInterface.h"
 #include "NetworkBufferManagement.h"
 #include "FreeRTOS_DNS.h"
-
+#include "cmsis_os.h"
 
 /* Used to ensure the structure packing is having the desired effect.  The
  * 'volatile' is used to prevent compiler warnings about comparing a constant with
@@ -1249,7 +1249,8 @@ BaseType_t FreeRTOS_IPInit( const uint8_t ucIPAddress[ ipIP_ADDRESS_LENGTH_BYTES
                                    "IP-task",
                                    ipconfigIP_TASK_STACK_SIZE_WORDS,
                                    NULL,
-                                   ipconfigIP_TASK_PRIORITY,
+                                   //ipconfigIP_TASK_PRIORITY,
+								   osPriorityNormal,
                                    &( xIPTaskHandle ) );
         }
         else
